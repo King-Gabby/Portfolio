@@ -1,1297 +1,2002 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gabriel Akoleaje — AI Engineer & Founder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --bg: #080a0f;
-      --surface: #0d1117;
-      --surface2: #131820;
-      --border: rgba(255, 255, 255, 0.06);
-      --accent: #00e5ff;
-      --accent2: #7b2fff;
-      --text: #e8eaf0;
-      --muted: #6b7280;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    .cursor {
-      position: fixed;
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.1s;
-      mix-blend-mode: screen;
-    }
-
-    .cursor-ring {
-      position: fixed;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(0, 229, 255, 0.4);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transition: all 0.15s ease;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 20px 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(8, 10, 15, 0.96), transparent);
-      backdrop-filter: blur(16px);
-    }
-
-    .nav-logo {
-      font-size: 13px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text);
-      letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-
-    .nav-logo em {
-      color: var(--accent);
-      font-style: normal;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      font-weight: 600;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: #22c55e;
-      letter-spacing: 0.1em;
-    }
-
-    .nav-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #22c55e;
-      animation: pulse 2s infinite;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 52px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 55% 45% at 85% 35%, rgba(123, 47, 255, 0.13) 0%, transparent 65%), radial-gradient(ellipse 40% 55% at 15% 65%, rgba(0, 229, 255, 0.07) 0%, transparent 65%);
-    }
-
-    .grid-overlay {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 920px;
-    }
-
-    .hero-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 32px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .hero-name {
-      font-size: clamp(52px, 8vw, 106px);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.35s forwards;
-    }
-
-    .hero-name .hl {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-title {
-      font-size: clamp(16px, 2.2vw, 22px);
-      color: var(--muted);
-      font-weight: 400;
-      margin-bottom: 44px;
-      line-height: 1.65;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.5s forwards;
-    }
-
-    .hero-title strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.65s forwards;
-    }
-
-    .tag {
-      padding: 6px 16px;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      background: var(--surface);
-      font-family: 'DM Mono', monospace;
-      transition: all 0.2s;
-    }
-
-    .tag:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .tag.on {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(0, 229, 255, 0.05);
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
-    }
-
-    .btn-p {
-      padding: 14px 32px;
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: all 0.25s;
-      font-family: 'Syne', sans-serif;
-    }
-
-    .btn-p:hover {
-      background: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0, 229, 255, 0.25);
-    }
-
-    .btn-g {
-      padding: 13px 28px;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: all 0.25s;
-      font-family: 'Syne', sans-serif;
-    }
-
-    .btn-g:hover {
-      border-color: var(--text);
-      color: var(--text);
-    }
-
-    .ticker {
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-      background: var(--surface);
-    }
-
-    .ticker-inner {
-      display: flex;
-      animation: tick 30s linear infinite;
-      width: max-content;
-    }
-
-    .ti {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 0 32px;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .td {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    @keyframes tick {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    section {
-      padding: 100px 52px;
-    }
-
-    .sl {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sl::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .st {
-      font-size: clamp(30px, 4vw, 50px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-    }
-
-    .ss {
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 500px;
-      line-height: 1.7;
-      margin-bottom: 60px;
-    }
-
-    /* About */
-    .about-section {
-      background: var(--surface);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 64px;
-      align-items: start;
-    }
-
-    @media (max-width: 860px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
-
-    .about-bio p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.85;
-      margin-bottom: 20px;
-    }
-
-    .about-bio p strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .about-bio p:last-child {
-      margin-bottom: 0;
-    }
-
-    .stat-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .stat-card {
-      padding: 22px 26px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface2);
-      transition: border-color 0.2s;
-    }
-
-    .stat-card:hover {
-      border-color: rgba(0, 229, 255, 0.2);
-    }
-
-    .stat-num {
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .stat-num span {
-      color: var(--accent);
-    }
-
-    .stat-lbl {
-      font-size: 11px;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.08em;
-    }
-
-    /* CelesTium */
-    .startup-section {
-      background: var(--bg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .startup-section::before {
-      content: 'CELESTIUM';
-      position: absolute;
-      right: -60px;
-      top: 50%;
-      transform: translateY(-50%) rotate(90deg);
-      font-size: 160px;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.012);
-      letter-spacing: -0.05em;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    .startup-card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 52px;
-      background: linear-gradient(135deg, rgba(123, 47, 255, 0.07), rgba(0, 229, 255, 0.03));
-      max-width: 780px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .startup-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(123, 47, 255, 0.35);
-    }
-
-    .startup-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent2), var(--accent));
-    }
-
-    .s-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 14px;
-      background: rgba(123, 47, 255, 0.15);
-      border: 1px solid rgba(123, 47, 255, 0.3);
-      border-radius: 100px;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #a78bfa;
-      font-family: 'DM Mono', monospace;
-      margin-bottom: 24px;
-    }
-
-    .s-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #a78bfa;
-      animation: pulse 2s infinite;
-    }
-
-    .s-name {
-      font-size: 52px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, #fff, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .s-desc {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.75;
-      max-width: 560px;
-    }
-
-    /* Projects */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-    }
-
-    .pc {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 36px;
-      background: var(--surface);
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pc::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.04) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .pc:hover {
-      border-color: rgba(0, 229, 255, 0.22);
-      transform: translateY(-4px);
-    }
-
-    .pc:hover::after {
-      opacity: 1;
-    }
-
-    .pc.feat {
-      grid-column: span 2;
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.04), rgba(123, 47, 255, 0.04));
-      border-color: rgba(0, 229, 255, 0.12);
-    }
-
-    @media (max-width: 800px) {
-      .pc.feat {
-        grid-column: span 1;
-      }
-    }
-
-    .p-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      margin-bottom: 24px;
-      border: 1px solid var(--border);
-      background: var(--surface2);
-    }
-
-    .pc.feat .p-icon {
-      background: rgba(0, 229, 255, 0.08);
-      border-color: rgba(0, 229, 255, 0.2);
-    }
-
-    .p-name {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 10px;
-    }
-
-    .p-desc {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
-      margin-bottom: 28px;
-    }
-
-    .p-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .st-tag {
-      padding: 3px 10px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      border-radius: 4px;
-      background: var(--surface2);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      letter-spacing: 0.05em;
-    }
-
-    .p-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-    }
-
-    .sdot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-    }
-
-    .sdot.bld {
-      background: #f59e0b;
-      animation: pulse 2s infinite;
-    }
-
-    .sdot.live {
-      background: #22c55e;
-      animation: pulse 2s infinite;
-    }
-
-    /* Skills */
-    .skills-section {
-      background: var(--surface);
-    }
-
-    .skill-groups {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
-    }
-
-    .sg {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-      background: var(--bg);
-    }
-
-    .sg-title {
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    .sk-rows {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .sk-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .sk-top {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .sk-n {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .sk-p {
-      font-size: 10px;
-      font-family: 'DM Mono', monospace;
-      color: var(--muted);
-    }
-
-    .sk-bar {
-      height: 2px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .sk-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 2px;
-      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-      width: 0;
-    }
-
-    .exp-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .exp-t {
-      padding: 5px 12px;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      border-radius: 6px;
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: #f59e0b;
-      background: rgba(245, 158, 11, 0.05);
-    }
-
-    /* Contact */
-    .contact-section {
-      background: var(--bg);
-      text-align: center;
-      padding: 120px 52px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact-section::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(123, 47, 255, 0.07) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .contact-section .sl {
-      justify-content: center;
-    }
-
-    .contact-section .sl::before {
-      display: none;
-    }
-
-    .c-title {
-      font-size: clamp(34px, 5vw, 64px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 16px;
-    }
-
-    .c-sub {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 48px;
-      max-width: 440px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.65;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .soc {
-      padding: 13px 26px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      font-family: 'DM Mono', monospace;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .soc:hover {
-      border-color: var(--text);
-      color: var(--text);
-    }
-
-    .soc svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-      flex-shrink: 0;
-    }
-
-    footer {
-      padding: 28px 52px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.4;
-      }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--surface2);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 640px) {
-      nav {
-        padding: 16px 20px;
-      }
-
-      .nav-links,
-      .nav-status {
-        display: none;
-      }
-
-      section,
-      .hero {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      footer {
-        padding: 20px;
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-      }
-
-      .startup-card {
-        padding: 28px;
-      }
-
-      .s-name {
-        font-size: 36px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Gabriel Ayodeji — AI Engineer, Computer Vision Developer, Backend Engineer. Building real-world AI systems.">
+<title>Gabriel Akoleaje · AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS & THEME
+═══════════════════════════════════════════════ */
+:root {
+  --accent:       #E8A020;
+  --accent-dim:   rgba(232,160,32,0.12);
+  --accent-line:  rgba(232,160,32,0.35);
+
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  --bg:        #111110;
+  --bg-2:      #181816;
+  --bg-3:      #202020;
+  --border:    rgba(255,255,255,0.07);
+  --border-md: rgba(255,255,255,0.11);
+  --text:      #F0EFE9;
+  --text-2:    #A8A49E;
+  --text-3:    #666360;
+  --invert:    1;
+}
+
+[data-theme="light"] {
+  --bg:        #F8F7F4;
+  --bg-2:      #EEECEA;
+  --bg-3:      #E4E2DE;
+  --border:    rgba(0,0,0,0.08);
+  --border-md: rgba(0,0,0,0.13);
+  --text:      #1A1917;
+  --text-2:    #5A5753;
+  --text-3:    #999590;
+  --invert:    0;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.35s, color 0.35s;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* ═══════════════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section { position: relative; z-index: 1; }
+
+.section-wrap { padding: 96px 0; }
+.section-wrap + .section-wrap { border-top: 1px solid var(--border); }
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY SCALE
+═══════════════════════════════════════════════ */
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.label::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.heading-xl {
+  font-size: clamp(42px, 6.5vw, 88px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.035em;
+}
+.heading-lg {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+.heading-md {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+.body-lg { font-size: 17px; line-height: 1.75; color: var(--text-2); }
+.body-md { font-size: 15px; line-height: 1.7; color: var(--text-2); }
+.mono { font-family: var(--font-mono); }
+
+.accent-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #F5C842 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  background: rgba(17,17,16,0.75);
+  transition: background 0.35s;
+}
+[data-theme="light"] nav { background: rgba(248,247,244,0.8); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+.nav-logo strong { color: var(--accent); font-weight: 500; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-links a:hover { color: var(--text); background: var(--bg-2); }
+
+.nav-right { display: flex; align-items: center; gap: 12px; }
+
+.theme-toggle {
+  width: 34px; height: 34px;
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  color: var(--text-2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+.theme-toggle:hover { border-color: var(--border-md); color: var(--text); background: var(--bg-3); }
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 7px 16px;
+  background: var(--accent);
+  color: #0a0900;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.2s, transform 0.2s;
+  text-transform: uppercase;
+}
+.nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text-2); border-radius: 2px; transition: all 0.25s; }
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-ambient {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 70% 30%, rgba(232,160,32,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(232,160,32,0.04) 0%, transparent 55%);
+}
+
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 100%);
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 80px 0;
+  max-width: 840px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 8px;
+  border: 1px solid var(--border-md);
+  border-radius: 100px;
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.1s var(--ease-out) forwards;
+}
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.25);
+  animation: blink 2.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.hero-name {
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s var(--ease-out) forwards;
+}
+
+.hero-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.32s var(--ease-out) forwards;
+}
+.hero-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  padding: 5px 12px;
+  border: 1px solid var(--border-md);
+  border-radius: 100px;
+  color: var(--text-2);
+  background: var(--bg-2);
+  text-transform: uppercase;
+}
+.hero-pill.accent { border-color: var(--accent-line); color: var(--accent); background: var(--accent-dim); }
+
+.hero-value {
+  font-size: clamp(17px, 2.2vw, 20px);
+  color: var(--text-2);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 44px;
+  font-weight: 400;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.44s var(--ease-out) forwards;
+}
+.hero-value strong { color: var(--text); font-weight: 600; }
+
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.55s var(--ease-out) forwards;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.22s var(--ease-out);
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #0a0900;
+  border-color: var(--accent);
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,160,32,0.25); }
+.btn-secondary {
+  background: var(--bg-2);
+  color: var(--text-2);
+  border-color: var(--border-md);
+}
+.btn-secondary:hover { background: var(--bg-3); color: var(--text); transform: translateY(-2px); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px; left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  opacity: 0;
+  animation: fadeUp 0.7s 0.8s var(--ease-out) forwards;
+}
+.scroll-line { width: 24px; height: 1px; background: var(--text-3); }
+
+/* ═══════════════════════════════════════════════
+   STATS ROW
+═══════════════════════════════════════════════ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+.stat-item {
+  background: var(--bg-2);
+  padding: 28px 24px;
+  text-align: center;
+}
+.stat-num {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-num span { color: var(--accent); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ═══════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.about-bio p {
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+.about-bio p:last-child { margin-bottom: 0; }
+.about-bio strong { color: var(--text); font-weight: 600; }
+
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.highlight-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.highlight-row:first-child { padding-top: 0; }
+.highlight-row:last-child { border-bottom: none; padding-bottom: 0; }
+.h-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.h-content {display: block;}
+.h-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.h-desc { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════════════ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.skill-group {
+  padding: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s;
+}
+.skill-group:hover { border-color: var(--border-md); }
+.skill-group-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.skill-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-2);
+  padding: 4px 10px;
+  border: 1px solid var(--border-md);
+  border-radius: 4px;
+  background: var(--bg-3);
+  transition: color 0.2s, border-color 0.2s;
+}
+.skill-tag:hover { color: var(--text); border-color: var(--border-md); }
+.skill-tag.learning {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+  position: relative;
+}
+.skill-tag.learning::after {
+  content: '↑';
+  font-size: 9px;
+  margin-left: 3px;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════════════ */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.project-card:hover {
+  border-color: var(--border-md);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.2);
+}
+
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 32px;
+  cursor: pointer;
+  position: relative;
+}
+.project-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 32px; right: 32px;
+  height: 1px;
+  background: var(--border);
+  display: none;
+}
+.project-card.expanded .project-header::after { display: block; }
+
+.p-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  padding-top: 3px;
+  flex-shrink: 0;
+  min-width: 28px;
+}
+.p-main { flex: 1; }
+.p-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.p-name { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.p-status-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.badge-live { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+.badge-wip  { background: rgba(251,191,36,0.1);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+
+.p-problem {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  max-width: 620px;
+}
+.p-stack-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.p-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 2px 8px;
+  border: 1px solid var(--border-md);
+  border-radius: 4px;
+  background: var(--bg-3);
+}
+
+.p-arrow {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3);
+  font-size: 14px;
+  transition: all 0.25s;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.project-card.expanded .p-arrow { background: var(--accent-dim); border-color: var(--accent-line); color: var(--accent); transform: rotate(180deg); }
+
+.project-body {
+  display: none;
+  padding: 28px 32px 32px;
+}
+.project-card.expanded .project-body { display: block; }
+
+.project-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.pb-section-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 12px;
+}
+.feature-list { display: flex; flex-direction: column; gap: 8px; }
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.feature-item::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+.metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.metric-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; }
+.metric-value { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--accent); }
+
+.project-links { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  background: var(--bg-3);
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.project-link:hover { border-color: var(--border-md); color: var(--text); background: var(--bg-2); }
+.project-link.primary { background: var(--accent-dim); border-color: var(--accent-line); color: var(--accent); }
+.project-link.primary:hover { background: rgba(232,160,32,0.2); }
+
+/* ═══════════════════════════════════════════════
+   ENGINEERING THINKING
+═══════════════════════════════════════════════ */
+.thinking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.thinking-card {
+  padding: 28px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s;
+}
+.thinking-card:hover { border-color: var(--border-md); }
+.tc-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.tc-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
+.tc-body { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+.tc-body code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-md);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* Pipeline diagram */
+.pipeline {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  overflow-x: auto;
+}
+.pipeline-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 28px;
+}
+.pipeline-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: 600px;
+}
+.pipe-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.pipe-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -16px;
+  top: 20px;
+  font-size: 16px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}
+.pipe-box {
+  width: 100%;
+  padding: 14px 10px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  position: relative;
+}
+.pipe-box.accent-box {
+  background: var(--accent-dim);
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.pipe-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+.pipe-spacer { width: 32px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════
+   DEPLOYMENT & EXPERIENCE
+═══════════════════════════════════════════════ */
+.deploy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.deploy-card {
+  padding: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s;
+}
+.deploy-card:hover { border-color: var(--border-md); }
+.deploy-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.deploy-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.deploy-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.deploy-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.deploy-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-md);
+  border-radius: 4px;
+  color: var(--text-3);
+  background: var(--bg-3);
+}
+
+/* ═══════════════════════════════════════════════
+   CURRENT FOCUS
+═══════════════════════════════════════════════ */
+.focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.focus-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.focus-item:last-child { border-bottom: none; }
+.focus-item:hover { background: var(--bg-3); }
+.focus-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  flex-shrink: 0;
+  padding-top: 2px;
+  min-width: 28px;
+}
+.focus-content {display: block;}
+.focus-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.focus-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════
+   CELESTIUM
+═══════════════════════════════════════════════ */
+.celestium-card {
+  position: relative;
+  overflow: hidden;
+  padding: 56px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.celestium-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.celestium-card::after {
+  content: 'CELESTIUM';
+  position: absolute;
+  right: -20px; bottom: -30px;
+  font-size: 120px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: rgba(255,255,255,0.02);
+  pointer-events: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+[data-theme="light"] .celestium-card::after { color: rgba(0,0,0,0.03); }
+
+.celestium-inner { position: relative; z-index: 1; max-width: 640px; }
+.celestium-name {
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--text) 30%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.celestium-desc { font-size: 16px; color: var(--text-2); line-height: 1.75; margin-bottom: 28px; }
+.celestium-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.celestium-status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════ */
+#contact {
+  border-top: 1px solid var(--border);
+}
+.contact-wrap {
+  padding: 96px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+
+.contact-links { display: flex; flex-direction: column; gap: 10px; }
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.contact-link:hover { border-color: var(--border-md); background: var(--bg-3); transform: translateX(3px); }
+.cl-left { display: flex; align-items: center; gap: 12px; }
+.cl-platform {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.cl-handle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-2);
+}
+.cl-arrow { color: var(--text-3); font-size: 14px; }
+
+.cl-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-3);
+  border: 1px solid var(--border-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative; z-index: 1;
+}
+.footer-left {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+.footer-left span { color: var(--accent); }
+.footer-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════════
+   MOBILE NAV OVERLAY
+═══════════════════════════════════════════════ */
+.mobile-nav {
+  display: none;
+  position: fixed; inset: 0; z-index: 190;
+  background: var(--bg);
+  padding: 80px 24px 40px;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+.mobile-nav a:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .thinking-grid { grid-template-columns: 1fr; }
+  .project-body-grid { grid-template-columns: 1fr; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .celestium-card { padding: 36px; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  section { padding: 0; }
+  .section-wrap { padding: 64px 0; }
+  .hero-content { padding: 60px 0; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .pipeline-steps { min-width: 520px; }
+}
+
+@media (max-width: 420px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
-
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#skills" onclick="closeMobileNav()">Skills</a>
+  <a href="#projects" onclick="closeMobileNav()">Projects</a>
+  <a href="#engineering" onclick="closeMobileNav()">Engineering</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+</div>
 
-  <nav>
-    <a class="nav-logo" href="#">Gabriel <em>Ayodeji</em></a>
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">gabriel<strong>.ai</strong></a>
+
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#startup">Startup</a></li>
-      <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#engineering">Engineering</a></li>
+      <li><a href="#startup">Startup</a></li>
     </ul>
-    <div class="nav-status"><span class="nav-dot"></span>Open to opportunities</div>
-  </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="grid-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">AI Engineer · Founder · Systems Builder</div>
-      <h1 class="hero-name">Gabriel<br><span class="hl">Akoleaje</span></h1>
-      <p class="hero-title">
-        <strong>Turning AI concepts into deployable systems.</strong><br>
-        Computer Vision · Applied ML · Full-Stack AI Products
-      </p>
-      <div class="hero-tags">
-        <span class="tag on">Computer Vision</span>
-        <span class="tag on">Applied AI</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">OpenCV</span>
-        <span class="tag">Python</span>
-        <span class="tag">ANPR</span>
-        <span class="tag">Full-Stack</span>
-        <span class="tag">EdTech AI</span>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀</button>
+      <a href="#contact" class="nav-cta">Contact</a>
+      <div class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
       </div>
-      <div class="hero-cta">
-        <a href="#projects" class="btn-p">View Projects</a>
-        <a href="#contact" class="btn-g">Get in Touch</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-inner">
-      <span class="ti"><span class="td"></span>Gabriel Akoleaje</span>
-      <span class="ti"><span class="td"></span>ANPR Platform</span>
-      <span class="ti"><span class="td"></span>Bookiee AI</span>
-      <span class="ti"><span class="td"></span>CelesTium</span>
-      <span class="ti"><span class="td"></span>Computer Vision</span>
-      <span class="ti"><span class="td"></span>FastAPI · OpenCV · Python</span>
-      <span class="ti"><span class="td"></span>Hand Gesture Control</span>
-      <span class="ti"><span class="td"></span>ASAPTrade</span>
-      <span class="ti"><span class="td"></span>AI Education</span>
-      <span class="ti"><span class="td"></span>Systems Thinker</span>
-      <span class="ti"><span class="td"></span>Gabriel Ayodeji</span>
-      <span class="ti"><span class="td"></span>ANPR Platform</span>
-      <span class="ti"><span class="td"></span>Bookiee AI</span>
-      <span class="ti"><span class="td"></span>CelesTium</span>
-      <span class="ti"><span class="td"></span>Computer Vision</span>
-      <span class="ti"><span class="td"></span>FastAPI · OpenCV · Python</span>
-      <span class="ti"><span class="td"></span>Hand Gesture Control</span>
-      <span class="ti"><span class="td"></span>ASAPTrade</span>
-      <span class="ti"><span class="td"></span>AI Education</span>
-      <span class="ti"><span class="td"></span>Systems Thinker</span>
     </div>
   </div>
+</nav>
 
-  <!-- ABOUT -->
-  <section class="about-section" id="about">
-    <div class="sl reveal">About Me</div>
-    <h2 class="st reveal">Builder at the intersection<br>of AI and systems.</h2>
-    <div class="about-grid">
-      <div class="about-bio reveal">
-        <p>I'm <strong>Gabriel Akoleaje</strong> — an AI engineer and founder building production-grade intelligent
-          systems with real-world impact. My work focuses on applied artificial intelligence and computer vision.</p>
-        <p>I've built an <strong>Automatic Number Plate Recognition (ANPR) platform</strong>, real-time hand tracking
-          and mouse-control systems, and I'm finalising <strong>Bookiee AI</strong> — an AI-powered application built
-          for practical deployment. I specialise in turning AI concepts into working, deployable software.</p>
-        <p>My technical stack includes <strong>Python, FastAPI, OpenCV, Streamlit, NumPy, Pandas, Matplotlib, and
-            Angular</strong>, with hands-on experience deploying backends to cloud platforms, managing API integrations,
-          debugging production environments, and building full-stack systems end-to-end.</p>
-        <p>Beyond engineering, I founded <strong>CelesTium</strong>, developing AI infrastructure systems beginning in
-          emerging markets with a global outlook. I've also built <strong>ASAPTrade</strong> and created technical
-          education programs, mentoring students in Python, AI, and foundational computing.</p>
-        <p>I don't just write code — I design architectures, validate assumptions, deploy solutions, and iterate based
-          on real-world constraints. Currently preparing for Canada, and seeking roles in high-performance AI, backend,
-          or computer vision teams.</p>
+<!-- ═══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-ambient"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Open to opportunities · Canada &amp; Remote
       </div>
-      <div class="stat-cards reveal">
-        <div class="stat-card">
-          <div class="stat-num">5<span>+</span></div>
-          <div class="stat-lbl">Production AI Systems Built</div>
+
+      <h1 class="heading-xl hero-name">
+        Gabriel<br><span class="accent-text">Ayodeji</span>
+      </h1>
+
+      <div class="hero-title-row">
+        <span class="hero-pill accent">AI Engineer</span>
+        <span class="hero-pill">Computer Vision Developer</span>
+        <span class="hero-pill">Backend Engineer</span>
+        <span class="hero-pill">Founder</span>
+      </div>
+
+      <p class="hero-value">
+        I build <strong>AI systems that ship</strong> — from real-time computer vision pipelines and OCR platforms to deployable AI products. I care about <strong>architecture, inference speed, and code that works in production</strong>.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+          View Projects
+        </a>
+        <a href="#contact" class="btn btn-secondary">Contact Me</a>
+        <a href="https://www.linkedin.com/in/gabriel-akoleaje" target="_blank" class="btn btn-secondary">
+          <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <div class="hero-scroll">
+        <span class="scroll-line"></span>
+        Scroll to explore
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="container" style="position:relative;z-index:1;">
+  <div class="stats-row reveal">
+    <div class="stat-item">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">AI Systems Built</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2<span>+</span></div>
+      <div class="stat-label">Companies Founded</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">30<span>fps</span></div>
+      <div class="stat-label">Real-time CV Systems</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Deployed Products</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">About</div>
+      <h2 class="heading-lg reveal">I design systems.<br>Then I build them.</h2>
+
+      <div class="about-grid">
+        <div class="about-bio reveal">
+          <p>I'm an <strong>AI engineer</strong> focused on building systems that move past proof-of-concept into actual deployment. My work sits at the intersection of computer vision, backend engineering, and applied machine learning.</p>
+          <p>I've shipped an <strong>ANPR platform</strong> that reads and processes vehicle plates in real time, built <strong>hand tracking and mouse-control systems</strong> at 30fps with MediaPipe and OpenCV, and I'm in the final stages of releasing <strong>Bookiee AI</strong> — an AI-powered study tool built on a FastAPI backend with LLM integration.</p>
+          <p>My stack is Python-first: <strong>FastAPI for APIs, OpenCV for vision, Streamlit for internal tooling, and Angular for interfaces</strong>. I deploy to Render and Vercel, debug production failures, and integrate third-party APIs — not just local prototypes.</p>
+          <p>Beyond engineering, I founded <strong>CelesTium</strong> — an AI company building infrastructure intelligence systems, starting in emerging markets. I also mentor students in Python, AI, and software fundamentals.</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-num">1<span>+</span></div>
-          <div class="stat-lbl">Companies Founded</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">∞</div>
-          <div class="stat-lbl">Students Mentored in Python & AI</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">1<span>x</span></div>
-          <div class="stat-lbl">Systems Thinker. More than just a Dev.</div>
+
+        <div class="about-highlights reveal">
+          <div class="highlight-row">
+            <div class="h-icon">👁</div>
+            <div class="h-content">
+              <div class="h-title">Computer Vision</div>
+              <div class="h-desc">ANPR, real-time hand tracking, gesture-based input systems. Built with OpenCV, MediaPipe, and Tesseract.</div>
+            </div>
+          </div>
+          <div class="highlight-row">
+            <div class="h-icon">⚙</div>
+            <div class="h-content">
+              <div class="h-title">Backend Engineering</div>
+              <div class="h-desc">REST APIs with FastAPI, production deployments to Render, API integration, debugging live systems.</div>
+            </div>
+          </div>
+          <div class="highlight-row">
+            <div class="h-icon">🧠</div>
+            <div class="h-content">
+              <div class="h-title">Applied AI Products</div>
+              <div class="h-desc">LLM integration, RAG pipelines, AI-powered applications built for real users — not demos.</div>
+            </div>
+          </div>
+          <div class="highlight-row">
+            <div class="h-icon">🏗</div>
+            <div class="h-content">
+              <div class="h-title">Systems Thinking</div>
+              <div class="h-desc">Designs that consider inference latency, API throughput, failure modes, and scale from day one.</div>
+            </div>
+          </div>
+          <div class="highlight-row">
+            <div class="h-icon">🚀</div>
+            <div class="h-content">
+              <div class="h-title">Founder at CelesTium</div>
+              <div class="h-desc">Building AI infrastructure products. Market focus: emerging economies scaling to global.</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CELESTIUM -->
-  <section class="startup-section" id="startup">
-    <div class="sl reveal">Startup</div>
-    <h2 class="st reveal">Building something that lasts.</h2>
-    <p class="ss reveal">From architecture to deployment; One intelligent system at a time.</p>
-    <div class="startup-card reveal">
-      <div class="s-badge">In Building Phase</div>
-      <div class="s-name">CelesTium</div>
-      <p class="s-desc">An AI-focused company developing infrastructure intelligence systems, beginning in emerging
-        markets with a global outlook. CelesTium is the home of ambitious AI products, anchored by Bookiee AI and
-        expanding into computer vision applications, intelligent automation, and beyond. The universe of AI, made
-        deployable and purposeful.</p>
+<!-- ═══════════════════════════════════════════════
+     SKILLS
+═══════════════════════════════════════════════ -->
+<section id="skills" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Technical Skills</div>
+      <h2 class="heading-lg reveal">The stack I ship with.</h2>
+      <p class="body-md reveal" style="margin-bottom: 40px; max-width: 520px;">Grouped by domain. Skills marked ↑ are actively being deepened.</p>
+
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag learning">C++</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">AI / ML / Vision</div>
+          <div class="skill-tags">
+            <span class="skill-tag">OpenCV</span>
+            <span class="skill-tag">MediaPipe</span>
+            <span class="skill-tag">Scikit-learn</span>
+            <span class="skill-tag learning">PyTorch</span>
+            <span class="skill-tag learning">TensorFlow</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Data & Visualisation</div>
+          <div class="skill-tags">
+            <span class="skill-tag">NumPy</span>
+            <span class="skill-tag">Pandas</span>
+            <span class="skill-tag">Matplotlib</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Backend & APIs</div>
+          <div class="skill-tags">
+            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">Flask</span>
+            <span class="skill-tag">Django</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Frontend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Angular</span>
+            <span class="skill-tag">Streamlit</span>
+            <span class="skill-tag">HTML / CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Tools & Deploy</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Render</span>
+            <span class="skill-tag">Vercel</span>
+            <span class="skill-tag">Hugging Face</span>
+            <span class="skill-tag learning">Docker</span>
+            <span class="skill-tag learning">AWS</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROJECTS -->
-  <section id="projects" style="background: var(--bg);">
-    <div class="sl reveal">Projects</div>
-    <h2 class="st reveal">What I've built.</h2>
-    <p class="ss reveal">Real systems. Real deployments. Real impact.</p>
-    <div class="projects-grid">
+<!-- ═══════════════════════════════════════════════
+     PROJECTS
+═══════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Featured Projects</div>
+      <h2 class="heading-lg reveal">What I've built &amp; shipped.</h2>
+      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 500px;">Click any project to see features, technical details, and metrics.</p>
 
-      <div class="pc feat reveal">
-        <div class="p-icon">🚗</div>
-        <h3 class="p-name">ANPR Platform</h3>
-        <p class="p-desc">A full Automatic Number Plate Recognition platform; detects, extracts, and processes vehicle
-          license plates in real time using computer vision. Built for practical deployment in access control, traffic
-          monitoring, and security systems. Handles diverse plate formats and challenging lighting conditions.</p>
-        <div class="p-stack">
-          <span class="st-tag">Python</span><span class="st-tag">OpenCV</span><span class="st-tag">Tesseract
-            OCR</span><span class="st-tag">FastAPI</span><span class="st-tag">NumPy</span><span
-            class="st-tag">YOLOV11</span>
+      <div class="projects-list reveal">
+
+        <!-- ANPR -->
+        <div class="project-card" onclick="toggleProject(this)">
+          <div class="project-header">
+            <span class="p-num">01</span>
+            <div class="p-main">
+              <div class="p-top-row">
+                <span class="p-name">ANPR Platform</span>
+                <span class="p-status-badge badge-wip">In Progress</span>
+              </div>
+              <p class="p-problem">Automatically detects, reads, and processes vehicle license plates from a video feed in real time — applicable to access control, traffic monitoring, and parking systems.</p>
+              <div class="p-stack-inline">
+                <span class="p-chip">Python</span>
+                <span class="p-chip">OpenCV</span>
+                <span class="p-chip">Tesseract OCR</span>
+                <span class="p-chip">FastAPI</span>
+                <span class="p-chip">NumPy</span>
+              </div>
+            </div>
+            <div class="p-arrow">▾</div>
+          </div>
+          <div class="project-body">
+            <div class="project-body-grid">
+              <div>
+                <div class="pb-section-title">Key Features</div>
+                <div class="feature-list">
+                  <div class="feature-item">Real-time plate detection from live video stream using contour analysis and morphological operations</div>
+                  <div class="feature-item">Tesseract OCR pipeline with preprocessing (grayscale, threshold, denoise) to improve read accuracy</div>
+                  <div class="feature-item">FastAPI backend exposing detection endpoint — accepts frame, returns plate string + bounding box</div>
+                  <div class="feature-item">Handles variable lighting, plate angles, and partial occlusion</div>
+                  <div class="feature-item">Logs all plate reads with timestamp for audit trail</div>
+                </div>
+              </div>
+              <div>
+                <div class="pb-section-title">System Metrics</div>
+                <div class="metric-row">
+                  <div class="metric">
+                    <span class="metric-label">Detection FPS</span>
+                    <span class="metric-value">~25–30 fps</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Processing Type</span>
+                    <span class="metric-value">Real-time</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">API Interface</span>
+                    <span class="metric-value">FastAPI REST</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Status</span>
+                    <span class="metric-value">Active Dev</span>
+                  </div>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/gabriel-akoleaje" target="_blank" class="project-link primary">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="p-status"><span class="sdot live"></span>Production-grade · Computer Vision</span>
-      </div>
 
-      <div class="pc reveal">
-        <div class="p-icon">📚</div>
-        <h3 class="p-name">Bookiee AI</h3>
-        <p class="p-desc">An AI-powered study companion under CelesTium. Turing every document, link, YouTube, Article,
-          and PDF into Knowledge base for interactive Q&A, and
-          structured study plans. Built for real deployment. Near completion.</p>
-        <div class="p-stack">
-          <span class="st-tag">Python</span><span class="st-tag">LLM / RAG</span><span
-            class="st-tag">FastAPI</span><span class="st-tag">Next.js</span><span class="st-tag">Streamlit</span>
+        <!-- Bookiee AI -->
+        <div class="project-card" onclick="toggleProject(this)">
+          <div class="project-header">
+            <span class="p-num">02</span>
+            <div class="p-main">
+              <div class="p-top-row">
+                <span class="p-name">Bookiee AI</span>
+                <span class="p-status-badge badge-wip">Finalising</span>
+              </div>
+              <p class="p-problem">An AI study tool that helps users extract key concepts, generate practice questions, and build structured study plans from uploaded documents and notes. Built under CelesTium.</p>
+              <div class="p-stack-inline">
+                <span class="p-chip">Python</span>
+                <span class="p-chip">FastAPI</span>
+                <span class="p-chip">LLM / RAG</span>
+                <span class="p-chip">Angular</span>
+                <span class="p-chip">Streamlit</span>
+              </div>
+            </div>
+            <div class="p-arrow">▾</div>
+          </div>
+          <div class="project-body">
+            <div class="project-body-grid">
+              <div>
+                <div class="pb-section-title">Key Features</div>
+                <div class="feature-list">
+                  <div class="feature-item">Document ingestion pipeline: PDF parsing → chunking → vector embedding → retrieval-augmented generation</div>
+                  <div class="feature-item">FastAPI backend with structured endpoints: /summarise, /quiz, /study-plan</div>
+                  <div class="feature-item">LLM integration with prompt engineering for domain-specific study outputs</div>
+                  <div class="feature-item">Angular frontend with session state management and response streaming</div>
+                  <div class="feature-item">Designed for deployment on Render (backend) and Vercel (frontend)</div>
+                </div>
+              </div>
+              <div>
+                <div class="pb-section-title">Architecture</div>
+                <div class="metric-row">
+                  <div class="metric">
+                    <span class="metric-label">Backend</span>
+                    <span class="metric-value">FastAPI (Python)</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">AI Layer</span>
+                    <span class="metric-value">RAG + LLM</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Frontend</span>
+                    <span class="metric-value">Angular</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Deploy Target</span>
+                    <span class="metric-value">Render + Vercel</span>
+                  </div>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/gabriel-akoleaje" target="_blank" class="project-link primary">GitHub</a>
+                  <a href="#" class="project-link">Demo (coming soon)</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="p-status"><span class="sdot bld"></span>Finalising · CelesTium</span>
-      </div>
 
-      <div class="pc reveal">
-        <div class="p-icon">🖱️</div>
-        <h3 class="p-name">Hand-Mouse Controller</h3>
-        <p class="p-desc">Control your computer entirely with hand gestures. Maps real-time hand movements to cursor
-          control, clicks, and scrolls — no additional hardware needed.</p>
-        <div class="p-stack">
-          <span class="st-tag">OpenCV</span><span class="st-tag">MediaPipe</span><span class="st-tag">Python</span><span
-            class="st-tag">PyAutoGUI</span>
+        <!-- Hand Tracking -->
+        <div class="project-card" onclick="toggleProject(this)">
+          <div class="project-header">
+            <span class="p-num">03</span>
+            <div class="p-main">
+              <div class="p-top-row">
+                <span class="p-name">Hand Tracking System</span>
+                <span class="p-status-badge badge-live">Complete</span>
+              </div>
+              <p class="p-problem">A real-time hand tracking module that detects and tracks 21 hand landmarks per frame with high accuracy. Serves as the foundational layer for gesture-driven interfaces.</p>
+              <div class="p-stack-inline">
+                <span class="p-chip">Python</span>
+                <span class="p-chip">OpenCV</span>
+                <span class="p-chip">MediaPipe</span>
+                <span class="p-chip">CV2</span>
+              </div>
+            </div>
+            <div class="p-arrow">▾</div>
+          </div>
+          <div class="project-body">
+            <div class="project-body-grid">
+              <div>
+                <div class="pb-section-title">Key Features</div>
+                <div class="feature-list">
+                  <div class="feature-item">Tracks 21 landmarks per hand at 30fps using MediaPipe's ML pipeline</div>
+                  <div class="feature-item">Custom landmark extraction — returns normalised (x, y, z) per joint</div>
+                  <div class="feature-item">Modular class-based architecture — importable as a utility module across projects</div>
+                  <div class="feature-item">Supports multi-hand detection (up to 2 hands simultaneously)</div>
+                  <div class="feature-item">Finger-up detection logic used downstream by the mouse controller</div>
+                </div>
+              </div>
+              <div>
+                <div class="pb-section-title">Performance</div>
+                <div class="metric-row">
+                  <div class="metric">
+                    <span class="metric-label">Tracking FPS</span>
+                    <span class="metric-value">~30 fps</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Landmarks / Hand</span>
+                    <span class="metric-value">21</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Hands Detected</span>
+                    <span class="metric-value">Up to 2</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Input Source</span>
+                    <span class="metric-value">Webcam / Video</span>
+                  </div>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/gabriel-akoleaje" target="_blank" class="project-link primary">GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="p-status"><span class="sdot live"></span>Completed · Computer Vision</span>
-      </div>
 
-      <div class="pc reveal">
-        <div class="p-icon">✋</div>
-        <h3 class="p-name">Hand Tracker</h3>
-        <p class="p-desc">Real-time 21-landmark hand tracking module. Precise, fast, reusable — the foundational layer
-          powering gesture-based applications.</p>
-        <div class="p-stack">
-          <span class="st-tag">MediaPipe</span><span class="st-tag">OpenCV</span><span class="st-tag">Python</span><span
-            class="st-tag">CV2</span>
+        <!-- Mouse Controller -->
+        <div class="project-card" onclick="toggleProject(this)">
+          <div class="project-header">
+            <span class="p-num">04</span>
+            <div class="p-main">
+              <div class="p-top-row">
+                <span class="p-name">Hand Mouse Controller</span>
+                <span class="p-status-badge badge-live">Complete</span>
+              </div>
+              <p class="p-problem">Controls the system cursor, clicks, and scrolling entirely through hand gestures captured via webcam. No additional hardware required.</p>
+              <div class="p-stack-inline">
+                <span class="p-chip">Python</span>
+                <span class="p-chip">OpenCV</span>
+                <span class="p-chip">MediaPipe</span>
+                <span class="p-chip">PyAutoGUI</span>
+              </div>
+            </div>
+            <div class="p-arrow">▾</div>
+          </div>
+          <div class="project-body">
+            <div class="project-body-grid">
+              <div>
+                <div class="pb-section-title">Key Features</div>
+                <div class="feature-list">
+                  <div class="feature-item">Maps index fingertip coordinates to full screen resolution using linear interpolation</div>
+                  <div class="feature-item">Click detection via pinch gesture (index + middle finger proximity threshold)</div>
+                  <div class="feature-item">Smoothing algorithm applied to cursor position to eliminate jitter from frame noise</div>
+                  <div class="feature-item">PyAutoGUI controls actual OS-level cursor — not a virtual overlay</div>
+                  <div class="feature-item">Built on top of the Hand Tracking module — clean separation of concerns</div>
+                </div>
+              </div>
+              <div>
+                <div class="pb-section-title">Performance</div>
+                <div class="metric-row">
+                  <div class="metric">
+                    <span class="metric-label">Cursor Latency</span>
+                    <span class="metric-value">&lt; 50ms</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Smoothing</span>
+                    <span class="metric-value">Rolling avg</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Click Method</span>
+                    <span class="metric-value">Pinch gesture</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Hardware req.</span>
+                    <span class="metric-value">Webcam only</span>
+                  </div>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/gabriel-akoleaje" target="_blank" class="project-link primary">GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="p-status"><span class="sdot live"></span>Completed · CV Module</span>
-      </div>
 
-      <div class="pc reveal">
-        <div class="p-icon">🛒</div>
-        <h3 class="p-name">ASAPTrade</h3>
-        <p class="p-desc">A marketplace platform built and deployed end-to-end. Full-stack product spanning backend
-          APIs, frontend interfaces, and cloud infrastructure.</p>
-        <div class="p-stack">
-          <span class="st-tag">Python</span><span class="st-tag">FastAPI</span><span class="st-tag">Angular</span><span
-            class="st-tag">Cloud</span>
+        <!-- ASAPTrade -->
+        <div class="project-card" onclick="toggleProject(this)">
+          <div class="project-header">
+            <span class="p-num">05</span>
+            <div class="p-main">
+              <div class="p-top-row">
+                <span class="p-name">ASAPTrade</span>
+                <span class="p-status-badge badge-live">Deployed</span>
+              </div>
+              <p class="p-problem">A full-stack marketplace platform built and deployed end-to-end — covering product listings, user sessions, API layer, and frontend interface.</p>
+              <div class="p-stack-inline">
+                <span class="p-chip">Python</span>
+                <span class="p-chip">FastAPI</span>
+                <span class="p-chip">Angular</span>
+                <span class="p-chip">REST APIs</span>
+                <span class="p-chip">Render</span>
+              </div>
+            </div>
+            <div class="p-arrow">▾</div>
+          </div>
+          <div class="project-body">
+            <div class="project-body-grid">
+              <div>
+                <div class="pb-section-title">Key Features</div>
+                <div class="feature-list">
+                  <div class="feature-item">FastAPI backend with modular routing, dependency injection, and Pydantic schema validation</div>
+                  <div class="feature-item">Angular SPA with component-based architecture and reactive state management</div>
+                  <div class="feature-item">REST API integration between frontend and backend with JWT-based auth</div>
+                  <div class="feature-item">Production deployment on Render (backend) and Vercel (frontend)</div>
+                  <div class="feature-item">Debugged and resolved production issues including CORS, cold start latency, and session handling</div>
+                </div>
+              </div>
+              <div>
+                <div class="pb-section-title">Deployment</div>
+                <div class="metric-row">
+                  <div class="metric">
+                    <span class="metric-label">Backend Host</span>
+                    <span class="metric-value">Render</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Frontend Host</span>
+                    <span class="metric-value">Vercel</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Auth</span>
+                    <span class="metric-value">JWT / REST</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Status</span>
+                    <span class="metric-value">Live</span>
+                  </div>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/gabriel-akoleaje" target="_blank" class="project-link primary">GitHub</a>
+                  <a href="#" class="project-link">Live Demo</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="p-status"><span class="sdot live"></span>Deployed · Marketplace</span>
-      </div>
 
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SKILLS -->
-  <section class="skills-section" id="skills">
-    <div class="sl reveal">Expertise</div>
-    <h2 class="st reveal">The stack.</h2>
-    <p class="ss reveal">Technologies I deploy, not just know.</p>
-    <div class="skill-groups">
+<!-- ═══════════════════════════════════════════════
+     ENGINEERING THINKING
+═══════════════════════════════════════════════ -->
+<section id="engineering" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Engineering Thinking</div>
+      <h2 class="heading-lg reveal">How I design AI systems.</h2>
+      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 560px;">This section explains the principles behind how I approach AI system architecture — not just what I've built, but how I think.</p>
 
-      <div class="sg reveal">
-        <div class="sg-title">Core & Backend</div>
-        <div class="sk-rows">
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Python</span><span class="sk-p">95%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="95"></div>
-            </div>
+      <!-- Pipeline -->
+      <div class="pipeline reveal" style="margin-bottom: 24px;">
+        <div class="pipeline-title">Typical AI Inference Pipeline — FastAPI Architecture</div>
+        <div class="pipeline-steps">
+          <div class="pipe-step">
+            <div class="pipe-box">Input<br><small style="font-size:10px;opacity:0.6;">Image / Frame</small></div>
+            <div class="pipe-sub">Client</div>
           </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">FastAPI</span><span class="sk-p">88%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="88"></div>
-            </div>
+          <div class="pipe-spacer"></div>
+          <div class="pipe-step">
+            <div class="pipe-box accent-box">FastAPI<br><small style="font-size:10px;opacity:0.7;">/predict</small></div>
+            <div class="pipe-sub">Gateway</div>
           </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Streamlit (Advanced)</span><span class="sk-p">90%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="90"></div>
-            </div>
+          <div class="pipe-spacer"></div>
+          <div class="pipe-step">
+            <div class="pipe-box">Preprocess<br><small style="font-size:10px;opacity:0.6;">Resize / Norm</small></div>
+            <div class="pipe-sub">Transform</div>
           </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">NumPy / Pandas</span><span class="sk-p">85%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="85"></div>
-            </div>
+          <div class="pipe-spacer"></div>
+          <div class="pipe-step">
+            <div class="pipe-box accent-box">Model<br><small style="font-size:10px;opacity:0.7;">Inference</small></div>
+            <div class="pipe-sub">CV / ML</div>
+          </div>
+          <div class="pipe-spacer"></div>
+          <div class="pipe-step">
+            <div class="pipe-box">Postprocess<br><small style="font-size:10px;opacity:0.6;">Parse / Filter</small></div>
+            <div class="pipe-sub">Output</div>
+          </div>
+          <div class="pipe-spacer"></div>
+          <div class="pipe-step">
+            <div class="pipe-box">JSON<br><small style="font-size:10px;opacity:0.6;">Response</small></div>
+            <div class="pipe-sub">Client</div>
           </div>
         </div>
       </div>
 
-      <div class="sg reveal">
-        <div class="sg-title">Computer Vision</div>
-        <div class="sk-rows">
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">OpenCV</span><span class="sk-p">85%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="85"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">MediaPipe</span><span class="sk-p">82%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="82"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">ANPR / OCR</span><span class="sk-p">80%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="80"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Object Detection</span><span class="sk-p">62%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="62"></div>
-            </div>
-          </div>
+      <div class="thinking-grid">
+        <div class="thinking-card reveal">
+          <div class="tc-num">01</div>
+          <div class="tc-title">API-First Architecture</div>
+          <div class="tc-body">I structure AI systems around a clean API boundary. The model is a service, not an embedded function. This means <code>FastAPI</code> routes that accept structured input, validate with Pydantic, and return typed JSON — decoupling the model from the consumer and making the system testable.</div>
+        </div>
+        <div class="thinking-card reveal">
+          <div class="tc-num">02</div>
+          <div class="tc-title">Inference at the Right Layer</div>
+          <div class="tc-body">For real-time vision tasks (like ANPR or hand tracking), inference runs in a tight loop close to the capture source — not over a network. For batch or user-triggered AI (like Bookiee AI), inference lives in <code>/predict</code> endpoints with response caching where the input is stable.</div>
+        </div>
+        <div class="thinking-card reveal">
+          <div class="tc-num">03</div>
+          <div class="tc-title">Deployment Mindset</div>
+          <div class="tc-body">I build with the target environment in mind: cold start time on <code>Render</code>, memory limits for free tiers, CORS headers, env-based config. I've debugged production failures — not just watched them happen in localhost. That shapes how I structure code from the start.</div>
+        </div>
+        <div class="thinking-card reveal">
+          <div class="tc-num">04</div>
+          <div class="tc-title">Scaling Considerations</div>
+          <div class="tc-body">Even at early scale, I think about: stateless API design (easy horizontal scaling), model loading once at startup (not per request), and separating long-running inference from the request thread. When I add Docker and cloud later, the architecture is already shaped for it.</div>
         </div>
       </div>
-
-      <div class="sg reveal">
-        <div class="sg-title">AI & Frontend</div>
-        <div class="sk-rows">
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">LLM / RAG</span><span class="sk-p">80%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="80"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Next.js</span><span class="sk-p">72%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="72"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Matplotlib</span><span class="sk-p">80%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="80"></div>
-            </div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-top"><span class="sk-n">Cloud Deployment</span><span class="sk-p">75%</span></div>
-            <div class="sk-bar">
-              <div class="sk-fill" data-level="75"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sg reveal">
-        <div class="sg-title">Expanding Into</div>
-        <p style="color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:16px;">Deepening systems-level
-          expertise across:</p>
-        <div class="exp-tags">
-          <span class="exp-t">TensorFlow</span>
-          <span class="exp-t">C++</span>
-          <span class="exp-t">Real-time Systems</span>
-          <span class="exp-t">YOLO / Detection</span>
-          <span class="exp-t">PyTorch</span>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section class="contact-section" id="contact">
-    <div class="sl reveal">Contact</div>
-    <h2 class="c-title reveal">Let's build something<br>remarkable.</h2>
-    <p class="c-sub reveal">Open to AI engineering, backend, and computer vision roles, and always down to talk about
-      building serious products.</p>
-    <div class="socials reveal">
-      <a href="https://www.linkedin.com/in/gabriel-akoleaje" target="_blank" class="soc">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-        </svg>
-        LinkedIn
-      </a>
-      <a href="https://x.com/gab_ryel_" target="_blank" class="soc">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.632L18.243 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-        </svg>
-        @gab_ryel_
-      </a>
-      <a href="#" class="soc">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-        </svg>
-        GitHub
-      </a>
-      <a href="#" class="soc">CelesTium ↗</a>
+<!-- ═══════════════════════════════════════════════
+     DEPLOYMENT & EXPERIENCE
+═══════════════════════════════════════════════ -->
+<section id="deployment">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Deployment & Experience</div>
+      <h2 class="heading-lg reveal">From local to live.</h2>
+      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 520px;">I've taken multiple projects through the full lifecycle — from prototyping to production environments.</p>
+
+      <div class="deploy-grid reveal">
+        <div class="deploy-card">
+          <div class="deploy-icon">🌐</div>
+          <div class="deploy-title">Backend Deployments</div>
+          <div class="deploy-desc">Deployed FastAPI applications to Render and Hugging Face Spaces. Handled environment variables, startup events, route registration, and cold start optimisation.</div>
+          <div class="deploy-tags">
+            <span class="deploy-tag">Render</span>
+            <span class="deploy-tag">Hugging Face</span>
+            <span class="deploy-tag">FastAPI</span>
+          </div>
+        </div>
+        <div class="deploy-card">
+          <div class="deploy-icon">⚡</div>
+          <div class="deploy-title">Frontend Deployments</div>
+          <div class="deploy-desc">Deployed Angular SPAs and Streamlit apps to Vercel. Configured build outputs, environment-based API URLs, and handled CORS issues between decoupled frontend/backend services.</div>
+          <div class="deploy-tags">
+            <span class="deploy-tag">Vercel</span>
+            <span class="deploy-tag">Angular</span>
+            <span class="deploy-tag">Streamlit</span>
+          </div>
+        </div>
+        <div class="deploy-card">
+          <div class="deploy-icon">🔗</div>
+          <div class="deploy-title">API Integration</div>
+          <div class="deploy-desc">Integrated third-party REST APIs into production backends. Experience with authentication flows, rate limit handling, error normalisation, and writing clean wrapper layers.</div>
+          <div class="deploy-tags">
+            <span class="deploy-tag">REST</span>
+            <span class="deploy-tag">JWT</span>
+            <span class="deploy-tag">OAuth</span>
+          </div>
+        </div>
+        <div class="deploy-card">
+          <div class="deploy-icon">🐛</div>
+          <div class="deploy-title">Production Debugging</div>
+          <div class="deploy-desc">Diagnosed and resolved real production failures: CORS misconfigurations, memory-related model loading issues, request timeout edge cases, and environment-specific dependency conflicts.</div>
+          <div class="deploy-tags">
+            <span class="deploy-tag">Debug</span>
+            <span class="deploy-tag">Logs</span>
+            <span class="deploy-tag">Infra</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <span>© 2025 Gabriel Akoleaje · CelesTium</span>
-    <span>- Built for production.</span>
-  </footer>
+<!-- ═══════════════════════════════════════════════
+     CURRENT FOCUS
+═══════════════════════════════════════════════ -->
+<section id="focus" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Current Focus</div>
+      <h2 class="heading-lg reveal">What I'm building toward.</h2>
+      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 520px;">Deliberate, specific learning — not a list of buzzwords.</p>
 
-  <script>
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx - 6 + 'px'; cursor.style.top = my - 6 + 'px'; });
-    (function anim() { rx += (mx - rx - 18) * 0.12; ry += (my - ry - 18) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(anim); })();
-    document.querySelectorAll('a,button').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.4)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
-    });
+      <div class="focus-list reveal">
+        <div class="focus-item">
+          <span class="focus-num">01</span>
+          <div class="focus-content">
+            <div class="focus-title">Deepening PyTorch & Deep Learning</div>
+            <div class="focus-desc">Building custom training loops, understanding backpropagation mechanics, and working with CNNs for image classification tasks. Goal: train and fine-tune models without relying solely on pretrained wrappers.</div>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="focus-num">02</span>
+          <div class="focus-content">
+            <div class="focus-title">TensorFlow for Production Pipelines</div>
+            <div class="focus-desc">Learning TensorFlow's serving layer and TFLite for deploying models to constrained environments. Relevant for future ANPR improvements and mobile-targeted computer vision work.</div>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="focus-num">03</span>
+          <div class="focus-content">
+            <div class="focus-title">Scalable AI System Design</div>
+            <div class="focus-desc">Studying patterns for async inference queues, model versioning, and separating AI workers from API servers. Preparing to architect systems that handle concurrent load without degrading performance.</div>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="focus-num">04</span>
+          <div class="focus-content">
+            <div class="focus-title">Cloud Engineering (AWS / Azure)</div>
+            <div class="focus-desc">Moving beyond Render/Vercel toward cloud-native deployments. Learning EC2, S3, Lambda, and container orchestration — building the infrastructure knowledge to match the engineering depth.</div>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="focus-num">05</span>
+          <div class="focus-content">
+            <div class="focus-title">C++ for Computer Vision Performance</div>
+            <div class="focus-desc">Building foundational C++ knowledge to optimise performance-critical CV code. Targeting integration with OpenCV's C++ API for latency-sensitive pipelines where Python overhead matters.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 55); obs.unobserve(e.target); } });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+<!-- ═══════════════════════════════════════════════
+     CELESTIUM
+═══════════════════════════════════════════════ -->
+<section id="startup">
+  <div class="container">
+    <div class="section-wrap">
+      <div class="label reveal">Startup</div>
+      <div class="celestium-card reveal">
+        <div class="celestium-inner">
+          <div class="celestium-name">CelesTium</div>
+          <p class="celestium-desc">
+            An AI company I founded to build infrastructure intelligence systems — starting in emerging markets, built for global scale. CelesTium is where I take the systems I engineer and turn them into products. Bookiee AI is the first. The scope is larger: AI tools that solve real operational problems in underserved markets where infrastructure gaps create the biggest opportunities.
+          </p>
+          <div class="celestium-status">
+            <span class="celestium-status-dot"></span>
+            Building in progress · Nigeria → Canada → Global
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    const skillObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('.sk-fill').forEach(b => { b.style.width = b.dataset.level + '%'; }); skillObs.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.skill-groups').forEach(g => skillObs.observe(g));
-  </script>
+<!-- ═══════════════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="contact-left reveal">
+        <div class="label">Contact</div>
+        <h2 class="heading-lg">Let's work<br>together.</h2>
+        <p class="body-lg" style="margin-top: 16px; max-width: 400px;">
+          I'm open to AI engineering, backend, and computer vision roles — full-time, contract, or remote. If you're building something serious, I'd like to hear about it.
+        </p>
+        <div style="margin-top: 32px; padding: 20px 24px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md);">
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;">Location</div>
+          <div style="font-size: 15px; font-weight: 600;">Nigeria · Preparing for Canada</div>
+          <div style="font-size: 13px; color: var(--text-2); margin-top: 4px;">Open to Canadian roles, remote work, and relocation</div>
+        </div>
+      </div>
+      <div class="contact-right reveal">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 16px;">Find me on</div>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/gabriel-akoleaje" target="_blank" class="contact-link">
+            <div class="cl-left">
+              <div class="cl-icon">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </div>
+              <div>
+                <div class="cl-platform">LinkedIn</div>
+                <div class="cl-handle">gabriel-akoleaje</div>
+              </div>
+            </div>
+            <span class="cl-arrow">↗</span>
+          </a>
+
+          <a href="https://x.com/gab_ryel_" target="_blank" class="contact-link">
+            <div class="cl-left">
+              <div class="cl-icon">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.632L18.243 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </div>
+              <div>
+                <div class="cl-platform">X (Twitter)</div>
+                <div class="cl-handle">@gab_ryel_</div>
+              </div>
+            </div>
+            <span class="cl-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/gabriel-akoleaje" target="_blank" class="contact-link">
+            <div class="cl-left">
+              <div class="cl-icon">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+              </div>
+              <div>
+                <div class="cl-platform">GitHub</div>
+                <div class="cl-handle">gabriel-akoleaje</div>
+              </div>
+            </div>
+            <span class="cl-arrow">↗</span>
+          </a>
+
+          <a href="mailto:gabriel@celestium.ai" class="contact-link">
+            <div class="cl-left">
+              <div class="cl-icon">✉</div>
+              <div>
+                <div class="cl-platform">Email</div>
+                <div class="cl-handle">gabriel@celestium.ai</div>
+              </div>
+            </div>
+            <span class="cl-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-left">
+    © 2025 <span>Gabriel Ayodeji</span> · CelesTium
+  </div>
+  <div class="footer-right">
+    Built for production. Not for show.
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════ -->
+<script>
+// ─── THEME ───
+const html = document.documentElement;
+const btn = document.getElementById('themeToggle');
+let theme = localStorage.getItem('theme') || 'dark';
+applyTheme(theme);
+
+btn.addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
+  localStorage.setItem('theme', theme);
+});
+
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? '☀' : '☾';
+}
+
+// ─── MOBILE NAV ───
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  nav.classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+// ─── PROJECT ACCORDION ───
+function toggleProject(card) {
+  const isOpen = card.classList.contains('expanded');
+  document.querySelectorAll('.project-card.expanded').forEach(c => c.classList.remove('expanded'));
+  if (!isOpen) card.classList.add('expanded');
+}
+
+// ─── SCROLL REVEAL ───
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      // Stagger siblings
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+      const idx = siblings.indexOf(entry.target);
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, Math.min(idx * 60, 180));
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => revealObs.observe(el));
+
+// ─── NAV ACTIVE LINK ───
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.style.color = '');
+      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (active) active.style.color = 'var(--text)';
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navObs.observe(s));
+</script>
+
 </body>
-
 </html>
