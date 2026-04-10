@@ -1098,7 +1098,7 @@ footer {
 <!-- ═══ NAV ═══ -->
 <nav id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Gabriel<strong>.Akoleaje</strong></a>
+    <a href="#" class="nav-logo">Gabriel<strong> Akoleaje</strong></a>
 
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -1200,9 +1200,9 @@ footer {
       <div class="about-grid">
         <div class="about-bio reveal">
           <p>I'm an <strong>AI engineer</strong> focused on building systems that move past proof-of-concept into actual deployment. My work sits at the intersection of computer vision, backend engineering, and applied machine learning.</p>
-          <p>I've shipped an <strong>ANPR platform</strong> that reads and processes vehicle plates in real time, built <strong>hand tracking and mouse-control systems</strong> at 30fps with MediaPipe and OpenCV, and I'm in the final stages of releasing <strong>Bookiee AI</strong> — an AI-powered study tool built on a FastAPI backend with LLM integration.</p>
+          <p>I've shipped an <strong>ANPR platform</strong> that reads and processes vehicle plates in real time, built <strong>hand tracking and mouse-control systems</strong> at 30fps with MediaPipe and OpenCV, and I'm in the final stages of releasing <strong>Bookiee AI</strong>; an AI-powered study tool built on a FastAPI backend with LLM integration.</p>
           <p>My stack is Python-first: <strong>FastAPI for APIs, OpenCV for vision, Streamlit for internal tooling, and JS/Typescript for interfaces</strong>. I deploy to Render and Vercel, debug production failures, and integrate third-party APIs without limitation to just local prototypes.</p>
-          <p>Beyond engineering, I founded <strong>CelesTium</strong> — an AI company building infrastructure intelligence systems, starting in emerging markets. I also mentor students in Python, AI, and software fundamentals.</p>
+          <p>Beyond engineering, I founded <strong>CelesTium</strong>, an AI company building infrastructure intelligence systems, starting in emerging markets. I also mentor students in Python, AI, and software fundamentals.</p>
         </div>
 
         <div class="about-highlights reveal">
@@ -1544,8 +1544,8 @@ footer {
                   <div class="feature-item">Maps index fingertip coordinates to full screen resolution using linear interpolation</div>
                   <div class="feature-item">Click detection via pinch gesture (index + middle finger proximity threshold)</div>
                   <div class="feature-item">Smoothing algorithm applied to cursor position to eliminate jitter from frame noise</div>
-                  <div class="feature-item">PyAutoGUI controls actual OS-level cursor — not a virtual overlay</div>
-                  <div class="feature-item">Built on top of the Hand Tracking module — clean separation of concerns</div>
+                  <div class="feature-item">PyAutoGUI controls actual OS-level cursor.</div>
+                  <div class="feature-item">Built on top of the Hand Tracking module, clean separation of concerns</div>
                 </div>
               </div>
               <div>
@@ -1650,11 +1650,11 @@ footer {
     <div class="section-wrap">
       <div class="label reveal">Engineering Thinking</div>
       <h2 class="heading-lg reveal">How I design AI systems.</h2>
-      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 560px;">This section explains the principles behind how I approach AI system architecture — not just what I've built, but how I think.</p>
+      <p class="body-md reveal" style="margin-bottom: 44px; max-width: 560px;">This section explains the principles behind how I approach AI system architecture exhibiting what I've built, and how I think through systems.</p>
 
       <!-- Pipeline -->
       <div class="pipeline reveal" style="margin-bottom: 24px;">
-        <div class="pipeline-title">Typical AI Inference Pipeline — FastAPI Architecture</div>
+        <div class="pipeline-title">Typical AI Inference Pipeline; FastAPI Architecture</div>
         <div class="pipeline-steps">
           <div class="pipe-step">
             <div class="pipe-box">Input<br><small style="font-size:10px;opacity:0.6;">Image / Frame</small></div>
@@ -1692,17 +1692,17 @@ footer {
         <div class="thinking-card reveal">
           <div class="tc-num">01</div>
           <div class="tc-title">API-First Architecture</div>
-          <div class="tc-body">I structure AI systems around a clean API boundary. The model is a service, not an embedded function. This means <code>FastAPI</code> routes that accept structured input, validate with Pydantic, and return typed JSON — decoupling the model from the consumer and making the system testable.</div>
+          <div class="tc-body">I structure AI systems around a clean API boundary. The model is a service, which is not an embedded function. This means <code>FastAPI</code> routes that accept structured input, validate with Pydantic, and return typed JSON; decoupling the model from the consumer and making the system testable.</div>
         </div>
         <div class="thinking-card reveal">
           <div class="tc-num">02</div>
           <div class="tc-title">Inference at the Right Layer</div>
-          <div class="tc-body">For real-time vision tasks (like ANPR or hand tracking), inference runs in a tight loop close to the capture source — not over a network. For batch or user-triggered AI (like Bookiee AI), inference lives in <code>/predict</code> endpoints with response caching where the input is stable.</div>
+          <div class="tc-body">For real-time vision tasks (like ANPR or hand tracking), inference runs in a tight loop close to the capture source. For batch or user-triggered AI (like Bookiee AI), inference lives in <code>/predict</code> endpoints with response caching where the input is stable.</div>
         </div>
         <div class="thinking-card reveal">
           <div class="tc-num">03</div>
           <div class="tc-title">Deployment Mindset</div>
-          <div class="tc-body">I build with the target environment in mind: cold start time on <code>Render</code>, memory limits for free tiers, CORS headers, env-based config. I've debugged production failures — not just watched them happen in localhost. That shapes how I structure code from the start.</div>
+          <div class="tc-body">I build with the target environment in mind: cold start time on <code>Render</code>, memory limits for free tiers, CORS headers, env-based config. I've debugged production failures over just watchin' them happen in localhost. That shapes how I structure code from the start.</div>
         </div>
         <div class="thinking-card reveal">
           <div class="tc-num">04</div>
